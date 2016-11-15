@@ -1,0 +1,37 @@
+﻿@model IntelligentEditing.Models.TextFileModel
+@{
+    ViewBag.Title = "Intelligent Editing";
+}
+
+<div class="jumbotron">
+    <h1>Word Report Generator</h1>
+    <p class="lead">Please upload a .txt file, this will produce a report which shows:</p>
+    <p>(a) Whether the text is in English</p>
+    <p>(b) The word count (minimum word count is currently @IntelligentEditing.Models.TextFile.GetMinimumWordCount() and can be changed in web.config)</p>
+    <p>(c) Whether any sequence of four or more words appears more than once in the text. </p>
+</div>
+
+
+@using (Html.BeginForm("Upload", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Upload File</h4>
+        <div class="form-group">
+            @Html.Label("Text File", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="upload" name="upload" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+                
+                @Html.ValidationMessage("TextFile", new { @class = "text-danger"})
+            </div>
+        </div>
+        @ViewBag.Message
+    </div>
+}
